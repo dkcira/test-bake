@@ -1,0 +1,23 @@
+full-install: system-deps install
+install: node-deps python-deps
+format:
+    black .
+
+python-deps: @skip:key=Pipfile.lock
+    pipenv install
+node-deps: @skip:key=yarn.lock
+    yarn install
+system-deps: @confirm
+    brew install pipenv
+    
+python-example:
+    #!/usr/bin/env python
+    import os
+    import sys
+
+    print(os.environ['KEY'])
+    print(sys.argv[1:])
+
+dangerous-example: @confirm:secure
+    # <insert deploy to production here>
+    exit 0
